@@ -1,0 +1,3 @@
+---
+# vars file for drupsible.twigc
+twigc_composer_relative_path: "vendor/twig/twig/ext/twig"

@@ -1,0 +1,3 @@
+---
+# defaults file for drupsible.twigc
+twigc_composer_working_dir: "."
