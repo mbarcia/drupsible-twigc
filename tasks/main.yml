@@ -18,9 +18,9 @@
     creates: "{{ twigc_composer_working_dir }}/{{ twigc_composer_relative_path }}/configure"
 
 - name: Configure Twig C extension
-  command: "./configure" 
+  shell: "./configure"
   args:
-    chdir: "{{ twigc_composer_working_dir }}"
+    chdir: "{{ twigc_composer_working_dir }}/{{ twigc_composer_relative_path }}"
     creates: "{{ twigc_composer_working_dir }}/{{ twigc_composer_relative_path }}/Makefile"
 
 - name: Make the Twig C extension
