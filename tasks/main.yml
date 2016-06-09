@@ -54,3 +54,5 @@
     dest: "/etc/php5/fpm/conf.d/20-twig.ini"
     state: link
   notify: 'Restart php5-fpm'
+
+- meta: flush_handlers
