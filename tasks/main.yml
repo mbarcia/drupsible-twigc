@@ -4,41 +4,48 @@
   file:
     path: "{{ twigc_composer_working_dir }}"
     state: directory
+  tags: [ provision ]
 
 - name: Require Twig via composer
   composer:
     command: "require"
     arguments: "twig/twig:~1.0"
     working_dir: "{{ twigc_composer_working_dir }}"
+  tags: [ provision ]
 
 - name: PHPize Twig C extension
   command: phpize
   args:
     chdir: "{{ twigc_composer_working_dir }}/{{ twigc_composer_relative_path }}"
     creates: "{{ twigc_composer_working_dir }}/{{ twigc_composer_relative_path }}/configure"
+  tags: [ provision ]
 
 - name: Configure Twig C extension
   shell: "./configure"
   args:
     chdir: "{{ twigc_composer_working_dir }}/{{ twigc_composer_relative_path }}"
     creates: "{{ twigc_composer_working_dir }}/{{ twigc_composer_relative_path }}/Makefile"
+  tags: [ provision ]
 
 - name: Make the Twig C extension
   command: make
   args:
     chdir: "{{ twigc_composer_working_dir }}/{{ twigc_composer_relative_path }}"
     creates: "{{ twigc_composer_working_dir }}/{{ twigc_composer_relative_path }}/modules/twig.so"
+  tags: [ provision ]
 
 - name: Register PHP's extension dir
   shell: php -i | grep extension_dir | cut -c 18-39
-  register: php_extension_dir
+  register: twigc_php_extension_dir_output
   changed_when: False
+  tags: [ provision ]
 
 - name: Install the Twig C extension
   command: make install
   args:
     chdir: "{{ twigc_composer_working_dir }}/{{ twigc_composer_relative_path }}"
-    creates: "{{ php_extension_dir.stdout }}/twig.so"
+    creates: "{{ twigc_php_extension_dir_output.stdout }}/twig.so"
+  tags: [ provision ]
 
 - name: Create twig.ini
   template:
